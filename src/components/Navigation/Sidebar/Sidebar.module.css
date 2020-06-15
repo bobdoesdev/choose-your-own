@@ -1,0 +1,30 @@
+.Sidebar{
+    background-color: black;
+    color: white;
+    padding: 20px;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    width: 200px;
+    z-index: 200;
+    transition: all .3s ease-in;
+}
+
+.Sidebar ul{
+    display: flex;
+    flex-direction: column;
+}
+
+@media(min-width: 500px){
+    .Sidebar{
+        display: none;
+    }
+}
+
+.Open{
+    transform: translateX(0);
+}
+
+.Closed{
+    transform: translateX(-100%);
+}

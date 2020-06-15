@@ -1,0 +1,11 @@
+.NavItems{
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+}
+
+@media(max-width: 500px){
+    .NavItems{
+        display: none;
+    }
+}

@@ -1,0 +1,13 @@
+.NavItem{
+    margin-left: 10px;
+}
+
+.NavItem a{
+    color: white;
+    text-decoration: none;
+}
+
+.NavItem a:hover{
+    color: limegreen;
+    text-decoration: none;
+}
