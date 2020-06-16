@@ -1,0 +1,23 @@
+.Toggle{
+    position: absolute;
+    right: 50px;
+    top: 40px;
+    cursor: pointer;
+}
+
+.Toggle span {
+    width: 30px;
+    height: 3px;
+    background-color: black;
+    position: absolute;
+}
+
+.Toggle span:first-of-type {
+    transform: rotate(45deg)
+}
+
+.Toggle span:nth-of-type(2) {
+    transform: rotate(-45deg)
+}
+
+

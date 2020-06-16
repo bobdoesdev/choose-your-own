@@ -30,7 +30,7 @@ class Layout extends Component{
                 <Navbar toggle={this.sidebarToggleHandler} />
                 <Sidebar open={this.state.sidebarOpen} closeHandler={this.sidebarClosedHandler}/>
                 <main className={classes.Content}>
-                    main content
+                    {this.props.children}
                 </main>
             </>
         );

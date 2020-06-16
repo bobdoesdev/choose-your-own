@@ -1,0 +1,11 @@
+.StoryList{
+    padding: 0;
+}
+
+.StoryListItem{
+    list-style: none;
+}
+
+.StoryListItem + .StoryListItem{
+    margin-top: 20px;
+}

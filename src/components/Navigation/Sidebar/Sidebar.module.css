@@ -13,6 +13,7 @@
 .Sidebar ul{
     display: flex;
     flex-direction: column;
+    padding: 0;
 }
 
 @media(min-width: 500px){

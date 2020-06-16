@@ -11,3 +11,14 @@
     color: limegreen;
     text-decoration: none;
 }
+
+.Button a{
+    background-color: #eee;
+    color: limegreen;
+    padding: 5px;
+    border-radius: 8px;
+}
+
+.Button a:hover{
+    color: black;
+}
