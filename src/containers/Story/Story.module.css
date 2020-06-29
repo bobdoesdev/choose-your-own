@@ -1,0 +1,40 @@
+.Story{
+
+}
+
+.Content{
+    background-color: white;
+    border-radius: 8px;
+    border: 1px solid black;
+    padding: 10px;
+}
+
+.Title{
+    font-weight: bold;
+    font-size: 26px;
+    color: black;
+}
+
+.Subtitle{
+    font-weight: semibold;
+    font-size: 18px;
+    color: black;
+}
+
+.Choices{
+    padding: 10px;
+}
+
+.Highlight{
+    color: limegreen;
+}
+
+.Choice{
+    border-radius: 8px;
+    border: 1px solid #C2DFFF;
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: #151B54;
+    color: white;
+    cursor: pointer;
+}
