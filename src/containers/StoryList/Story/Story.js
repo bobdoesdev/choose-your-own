@@ -1,15 +1,16 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
+
 import classes from './Story.module.css';
 import GenreTags from './GenreTags/GenreTags';
 import StoryDetails from './StoryDetails/StoryDetails';
 
+
 const Story = (props) => {
 
-
-    console.log(props);
     return (
         <div className={classes.Story}>
-            <h3 className={classes.Title}>{props.title}</h3>
+            <Link to="/stories/story1" className={classes.Title}>{props.title}</Link>
             <p className={classes.Description}>{props.description} </p>
 
             <StoryDetails

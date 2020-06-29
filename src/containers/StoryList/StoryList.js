@@ -37,9 +37,6 @@ class StoryList extends Component{
                     </li>
 
                 </ul>
-
-
-
             </div>
         );
     }
