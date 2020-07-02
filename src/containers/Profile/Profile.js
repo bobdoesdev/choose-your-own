@@ -28,7 +28,15 @@ class Profile extends Component{
                     <p><strong>Highest rated: </strong> Once Upon a Midnight Gory</p>
                     <p><strong>Most read: </strong> To Mock a Killingbird</p>
                     <p><strong>Most published genre: </strong> paranormal romance</p>
+                </div>
 
+                <div className={classes.Section}>
+                    <h3>Reader Information</h3>
+                    <p><strong>Stories read </strong> 15</p>
+                    <p><strong>Most read genre: </strong> action/adventure</p>
+                    <p><strong>Stories rated: </strong> 3</p>
+                    <p><strong>Highest rated story: </strong> Once Upon a Midnight Gory</p>
+                    <p><strong>Most read author: </strong> To Mock a Killingbird</p>
                 </div>
 
             </div>
