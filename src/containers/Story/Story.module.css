@@ -37,4 +37,9 @@
     background-color: #151B54;
     color: white;
     cursor: pointer;
+    transition: all .3s ease-in;
+}
+
+.Choice:hover{
+    background-color: #949AD3;
 }

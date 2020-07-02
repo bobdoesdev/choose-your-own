@@ -1,11 +1,27 @@
 .StoryList{
     padding: 0;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
 }
 
 .StoryListItem{
     list-style: none;
+    width: 48%;
 }
 
-.StoryListItem + .StoryListItem{
-    margin-top: 20px;
+@media(max-width: 500px){
+    .StoryList{
+        display: block;
+    }
+
+    .StoryListItem{
+        list-style: none;
+        width: 100%;
+    }
+
+    .StoryListItem + .StoryListItem{
+        margin-top: 20px;
+    }
 }
+

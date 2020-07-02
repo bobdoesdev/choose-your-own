@@ -1,0 +1,10 @@
+.Section{
+    background-color: white;
+    border-radius: 8px;
+    border: 1px solid black;
+    padding: 10px;
+}
+
+.Section + .Section{
+    margin-top: 20px;
+}
