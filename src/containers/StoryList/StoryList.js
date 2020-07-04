@@ -1,41 +1,56 @@
 import React, {Component} from 'react';
+import axios from '../../axios';
+
 import classes from './StoryList.module.css';
 import Story from './Story/Story';
 
 class StoryList extends Component{
 
     state = {
-
+        stories: []
     };
 
+    componentDidMount(){
+        axios.get('/stories.json?')
+        .then( response => {
+            const stories = [];
+            for(let key in response.data){
+                stories.push({
+                    ...response.data[key],
+                    id: key
+                });
+            }
+            this.setState({stories: stories});
+        })
+        .catch( error => {
+            console.log(error);
+        });
+    }
+
     render(){
+
+        const stories = this.state.stories.map( story =>{
+            return (
+                <li className={classes.StoryListItem} key={story.id}>
+                <Story
+                    title={story.title}
+                    description={story.description}
+                    // genreTags={story.genreTags.join( ', ')}
+                    author={story.author}
+                    publicationDate={story.datePublished}
+                    rating={story.rating}
+                    id={story.id}
+                />
+                </li>
+            );
+        });
+
         return (
             <div className={classes.StoryListWrapper}>
                 <h1>List Title</h1>
 
                 <ul className={classes.StoryList}>
-                    <li className={classes.StoryListItem}>
-                        <Story
-                            title="Story 1"
-                            description="This is a description."
-                            genreTags={['romance', 'horror']}
-                            author="Frank herbert"
-                            publicationDate="05/03/1988"
-                            rating="5/10"
-                        />
-                    </li>
-
-                    <li className={classes.StoryListItem}>
-                        <Story
-                            title="Story 2"
-                            description="This is a description."
-                            genreTags={['romance', 'horror']}
-                            author="Frank Herbert"
-                            publicationDate="05/03/1988"
-                            rating="5/10"
-                        />
-                    </li>
-
+                   {stories}
                 </ul>
             </div>
         );

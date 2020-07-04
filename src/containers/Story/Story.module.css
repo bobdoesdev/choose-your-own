@@ -31,15 +31,30 @@
 
 .Choice{
     border-radius: 8px;
-    border: 1px solid #C2DFFF;
     padding: 10px;
     margin-bottom: 20px;
-    background-color: #151B54;
-    color: white;
     cursor: pointer;
     transition: all .3s ease-in;
+    border: 1px solid #C2DFFF;
+    background-color: #151B54;
+    color: white;
 }
 
 .Choice:hover{
     background-color: #949AD3;
+}
+
+.Save{
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    transition: all .3s ease-in;
+    border: 1px solid #2E8B57;
+    background-color: #90EE90;
+    color: white;
+}
+
+.Save:hover{
+    background-color: #98FB98;
 }

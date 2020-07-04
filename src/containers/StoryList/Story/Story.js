@@ -8,9 +8,13 @@ import StoryDetails from './StoryDetails/StoryDetails';
 
 const Story = (props) => {
 
+    console.log(props);
+
+    const link = '/stories/'+props.id;
+
     return (
         <div className={classes.Story}>
-            <Link to="/stories/story1" className={classes.Title}>{props.title}</Link>
+            <Link to={link} className={classes.Title}>{props.title}</Link>
             <p className={classes.Description}>{props.description} </p>
 
             <StoryDetails
@@ -18,7 +22,7 @@ const Story = (props) => {
                 publicationDate={props.publicationDate}
                 rating={props.rating}
             />
-            <GenreTags genres={props.genreTags}/>
+            {/* <GenreTags genres={props.genreTags}/> */}
         </div>
     );
 };

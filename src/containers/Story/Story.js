@@ -1,18 +1,52 @@
 import React, {Component} from 'react';
+import axios from '../../axios';
 import classes from './Story.module.css';
 
 class Story extends Component{
 
     state = {
-
+        title: null,
+        chapters: null,
+        author: null,
+        id: 'sdfsdsdfklk3234234234sdsdfsdf',
+        genreTags: null,
+        rating: null,
+        randomOther: null
     };
+
+    componentDidMount(){
+        axios.get('/stories/'+ this.state.id +'.json')
+        .then( response => {
+            const newState = {...this.state};
+
+            for(let storyKey in response.data){
+                // console.log(storyKey);
+                if(newState.hasOwnProperty(storyKey)){
+                    newState[storyKey] = response.data[storyKey];
+                }
+            }
+
+            this.setState({
+                ...newState
+            });
+
+
+        })
+        .catch( error => {
+            console.log(error);
+        });
+    }
+
+    componentDidUpdate (){
+        console.log(this.state);
+    }
 
     render(){
         return (
             <div className={classes.Story}>
 
                 <div className={classes.Content}>
-                    <h1 className={classes.Title}>The Bulbous and the Beautiful</h1>
+                    <h1 className={classes.Title}>{this.state.title}</h1>
                     <h3 className={classes.Subtitle}>Chapter 1: The Beginning</h3>
 
                     <hr></hr>
@@ -36,6 +70,11 @@ class Story extends Component{
 
                     <div className={classes.Choice}>
                         <p>Swipe the knife out of his hands and kick him in the balls.</p>
+                    </div>
+
+
+                    <div className={classes.Save}>
+                        <p>Save Progress</p>
                     </div>
                 </div>
             </div>
