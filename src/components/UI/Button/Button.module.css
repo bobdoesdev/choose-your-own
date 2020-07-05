@@ -1,0 +1,43 @@
+.Button {
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    transition: all .3s ease-in;
+    text-align: left;
+}
+
+.Button:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+.Success {
+    color: #5C9210;
+}
+
+.Danger {
+    color: #944317;
+}
+
+.Choice{
+    border: 1px solid #C2DFFF;
+    background-color: #151B54;
+    color: white;
+    display: block;
+    width: 100%;
+}
+
+.Choice:hover{
+    background-color: #949AD3;
+}
+
+.Save{
+    border: 1px solid #2E8B57;
+    background-color: #90EE90;
+    color: white;
+}
+
+.Save:hover{
+    background-color: #98FB98;
+}
