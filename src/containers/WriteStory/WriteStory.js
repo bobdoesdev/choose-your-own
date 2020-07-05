@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import classes from './WriteStory.module.css';
 
 class WriteStory extends Component{
 
@@ -8,7 +9,9 @@ class WriteStory extends Component{
 
     render(){
         return (
-            <div></div>
+            <div className={classes.WriteStory}>
+
+            </div>
         );
     }
 }

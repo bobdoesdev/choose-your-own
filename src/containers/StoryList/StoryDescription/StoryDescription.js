@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
-import classes from './Story.module.css';
+import classes from './StoryDescription.module.css';
 import GenreTags from './GenreTags/GenreTags';
 import StoryDetails from './StoryDetails/StoryDetails';
 

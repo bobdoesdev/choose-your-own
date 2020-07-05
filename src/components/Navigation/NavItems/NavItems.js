@@ -6,9 +6,10 @@ const NavItems = (props) => {
     return (
         <ul className={classes.NavItems}>
             <NavItem link="/">Home</NavItem>
-            <NavItem link="/favorites">Sign In</NavItem>
-            <NavItem link="/profile" >Profile</NavItem>
-            <NavItem link="/search" appearance="Button">Search</NavItem>
+            <NavItem link="/writestory">Write Story</NavItem>
+            {/* <NavItem link="/favorites">Sign In</NavItem> */}
+            {/* <NavItem link="/profile" >Profile</NavItem> */}
+            {/* <NavItem link="/search" appearance="Button">Search</NavItem> */}
 
         </ul>
     );

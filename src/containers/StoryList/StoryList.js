@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import axios from '../../axios';
 
 import classes from './StoryList.module.css';
-import Story from './Story/Story';
+import Story from './StoryDescription/StoryDescription';
 
 class StoryList extends Component{
 
