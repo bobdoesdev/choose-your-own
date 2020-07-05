@@ -8,8 +8,6 @@ import StoryDetails from './StoryDetails/StoryDetails';
 
 const Story = (props) => {
 
-    console.log(props);
-
     const link = '/stories/'+props.id;
 
     return (
@@ -22,7 +20,7 @@ const Story = (props) => {
                 publicationDate={props.publicationDate}
                 rating={props.rating}
             />
-            {/* <GenreTags genres={props.genreTags}/> */}
+            <GenreTags genres={props.genreTags}/>
         </div>
     );
 };

@@ -13,6 +13,7 @@ class StoryList extends Component{
     componentDidMount(){
         axios.get('/stories.json?')
         .then( response => {
+
             const stories = [];
             for(let key in response.data){
                 stories.push({
@@ -35,7 +36,7 @@ class StoryList extends Component{
                 <Story
                     title={story.title}
                     description={story.description}
-                    // genreTags={story.genreTags.join( ', ')}
+                    genreTags={story.genreTags}
                     author={story.author}
                     publicationDate={story.datePublished}
                     rating={story.rating}
