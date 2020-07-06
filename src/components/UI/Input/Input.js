@@ -3,6 +3,8 @@ import classes from './Input.module.css';
 
 const input = (props) => {
 
+    console.log(props);
+
     let inputElement = null;
     const inputClasses = [classes.InputElement];
 
@@ -35,6 +37,7 @@ const input = (props) => {
     return (
         <div className={classes.Input}>
             <label className={classes.Label}>{props.elementConfig.label}</label>
+            <p>{props.elementConfig.description}</p>
             {inputElement}
         </div>
     );

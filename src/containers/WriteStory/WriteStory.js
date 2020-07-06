@@ -11,8 +11,8 @@ class WriteStory extends Component{
 
     state = {
         stage: {
-            isStoryDetails: true,
-            isIntro: false,
+            isStoryDetails: false,
+            isIntro: true,
             isChoice: false,
         },
         storyDetailsForm: {
@@ -22,6 +22,7 @@ class WriteStory extends Component{
                     type: 'text',
                     placeholder: 'Add a title for your story',
                     label: 'Title',
+                    name: 'title'
                 },
                 value: '',
                 validation: {
@@ -36,6 +37,7 @@ class WriteStory extends Component{
                     type: 'text',
                     placeholder: 'Add a description for your story',
                     label: 'Description',
+                    name: 'description'
                 },
                 value: '',
                 validation: {
@@ -50,6 +52,8 @@ class WriteStory extends Component{
                     type: 'text',
                     placeholder: 'Add genre tags for your story',
                     label: 'Genre Tags',
+                    name: 'genreTags',
+                    description: 'Add values seperated by a comma.'
                 },
                 value: '',
                 validation: {
@@ -58,94 +62,45 @@ class WriteStory extends Component{
                 valid: false,
                 touched: false
             },
+            addAnother: false
         },
-        // orderForm: {
-        //     name: {
-        //         elementType: 'input',
-        //         elementConfig: {
-        //             type: 'text',
-        //             placeholder: 'Your Name'
-        //         },
-        //         value: '',
-        //         validation: {
-        //             required: true,
-        //         },
-        //         valid: false,
-        //         touched: false
-        //     },
-        //     street: {
-        //         elementType: 'input',
-        //         elementConfig: {
-        //             type: 'text',
-        //             placeholder: 'Street'
-        //         },
-        //         value: '',
-        //         validation: {
-        //             required: true,
-        //         },
-        //         valid: false,
-        //         touched: false
-        //     },
-        //     zipCode: {
-        //         elementType: 'input',
-        //         elementConfig: {
-        //             type: 'text',
-        //             placeholder: 'Zip Code'
-        //         },
-        //         value: '',
-        //         validation: {
-        //             required: true,
-        //             minLength: 5,
-        //             maxLength: 5,
-        //         },
-        //         valid: false,
-        //         touched: false
-        //     },
-        //     country: {
-        //         elementType: 'input',
-        //         elementConfig: {
-        //             type: 'text',
-        //             placeholder: 'Country'
-        //         },
-        //         value: '',
-        //         validation: {
-        //             required: true,
-        //         },
-        //         valid: false,
-        //         touched: false
-        //     },
-        //     email: {
-        //         elementType: 'input',
-        //         elementConfig: {
-        //             type: 'email',
-        //             placeholder: 'Email Address'
-        //         },
-        //         value: '',
-        //         validation: {
-        //             required: true,
-        //         },
-        //         valid: false,
-        //         touched: false
-        //     },
-        //     deliveryMethod: {
-        //         elementType: 'select',
-        //         elementConfig: {
-        //             options: [
-        //                 {
-        //                     value: 'fastest',
-        //                     displayValue: 'Fastest'
-        //                 },
-        //                 {
-        //                     value: 'cheapest',
-        //                     displayValue: 'Cheapest'
-        //                 },
-        //             ],
-        //         },
-        //         value: '',
-        //         validation: {},
-        //         valid: true
-        //     },
-        // },
+
+        storyIntroForm: {
+            intro: {
+                elementType: 'textarea',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Add content for your story',
+                    label: 'Intro',
+                    name: 'intro',
+                    rows: 10
+                },
+                value: '',
+                validation: {
+                    required: false,
+                },
+                valid: true,
+                touched: false,
+            },
+            choice: {
+                elementType: 'text',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Add a choice',
+                    label: 'Choices',
+                    name: 'choices[]',
+                },
+                value: '',
+                validation: {
+                    required: false,
+                },
+                valid: true,
+                touched: false,
+                addAnother: true,
+            },
+
+        },
+
         formIsValid: false
     };
 
@@ -167,77 +122,163 @@ class WriteStory extends Component{
         return isValid;
     }
 
-    storySubmitHandler = (event) => {
+    storySubmitHandler = (event, formName) => {
         event.preventDefault();
 
         const formData = {};
-        for(let formElId in this.state.storyDetailsForm){
-            formData[formElId] = this.state.storyDetailsForm[formElId].value;
+        for(let formElId in this.state[formName]){
+            if( formElId  === 'genreTags'){
+                formData[formElId] = this.state[formName][formElId].value.split(', ');
+            } else{
+                formData[formElId] = this.state[formName][formElId].value
+            }
+
         }
-        // formData.id = uuid();
         const stage = Object.keys(this.state.stage).find(key => this.state.stage[key] === true);
 
         //stage should determine which api endpoint it's being sent to
         //change type of id to add to formdata depending on if intro, storydetails or choice
-        //if is storydetails, it's a new story
+        //if is storydetails, it's a new story, add story id
         //if its intro, needs story id
 
         let storyData = {};
         if(stage === 'isStoryDetails'){
             storyData = {
                 ...formData,
-                introId: uuid(),
                 storyId: uuid(),
                 author: 'Alexander Hamilton',
                 datePublished: Date.now()
             }
+            axios.post('/stories.json', storyData)
+            .then( response => {
+                console.log(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
         }
 
-        console.log(storyData);
+        if(stage === 'isIntro'){
+            storyData = {
+                ...formData,
+            }
 
-        axios.post('/stories.json', storyData)
-        .then( response => {
-            console.log(response.data);
-        })
-        .catch(error => {
-            console.log(error);
-        });
+            console.log(storyData);
+            //for each choice, generate a new section that will be filled with data later
+            axios.post('/sections.json', storyData)
+            .then( response => {
+                //response should be name of newly created choice entry, add to intial story details so we know where the story starts
+                console.log(response.data.name);
+                //using temp story id since we don't have any user auth setup yet
+                axios.patch('/stories/-MBWIauUxSsrxzRnWMqp.json', {introId: response.data.name})
+                .then( response => {
+                    console.log(response.data);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+            })
+            .catch(error => {
+                console.log(error);
+            });
 
+        }
+
+        // if(stage === 'isChoice'){
+        // }
 
     }
 
-    inputChangedHandler = (event, inputId) => {
+    addInputHandler = (event, formName) => {
+        event.preventDefault();
 
-        const updatedStoryDetailsFormElement = updateObject(this.state.storyDetailsForm[inputId], {
+        //make sure there is an input that allwos for this
+        const input = Object.keys(this.state[formName]).find(key =>{
+            return  this.state[formName][key].addAnother === true ;
+        });
+
+        //get a count for how many choices there are
+        const choices = Object.keys(this.state[formName]).filter(key =>{
+            return key.includes('choice');
+        });
+        const count = choices.length + 1;
+        const name = 'choice_' + count;
+
+        if(input){
+            const newInput = {
+                [name]: {...this.state[formName][input]}
+            }
+            const inputs = {...this.state[formName], ...newInput};
+            this.setState(prevState => ({
+                [formName]: inputs
+            }));
+
+        }
+    }
+
+    inputChangedHandler = (event, inputId, form) => {
+
+        const updatedFormElement = updateObject(this.state[form][inputId], {
             value: event.target.value,
-            valid: this.checkValidity(event.target.value, this.state.storyDetailsForm[inputId].validation),
+            valid: this.checkValidity(event.target.value, this.state[form][inputId].validation),
             touch: true
         });
 
-        const updatedStoryDetailsForm = updateObject(this.state.storyDetailsForm, {
-            [inputId]: updatedStoryDetailsFormElement
+        const updatedForm = updateObject(this.state[form], {
+            [inputId]: updatedFormElement
         } );
 
         let formIsValid = true;
-        for(let inputIdentifier in updatedStoryDetailsForm){
-            formIsValid = updatedStoryDetailsForm[inputIdentifier].valid && formIsValid;
+        for(let inputIdentifier in updatedForm){
+            formIsValid = updatedForm[inputIdentifier].valid && formIsValid;
         }
         this.setState({
-            storyDetailsForm: updatedStoryDetailsForm,
+            [form]: updatedForm,
             formIsValid: formIsValid
         });
     }
 
     render(){
+
+        console.log(this.state.storyIntroForm);
         const formElementsArray = [];
-        for(let key in this.state.storyDetailsForm){
-            formElementsArray.push({
-                id: key,
-                config: this.state.storyDetailsForm[key],
-            });
+        let formName = '';
+        let leadText = '';
+
+        if(this.state.stage.isStoryDetails){
+            leadText = 'Tell us about your story';
+            formName = 'storyDetailsForm';
+            for(let key in this.state.storyDetailsForm){
+                formElementsArray.push({
+                    id: key,
+                    config: this.state.storyDetailsForm[key],
+                });
+            }
         }
 
-        let form = (<form onSubmit={this.storySubmitHandler}>
+        if(this.state.stage.isIntro){
+            leadText = 'Your story starts here';
+            formName = 'storyIntroForm';
+            for(let key in this.state.storyIntroForm){
+                formElementsArray.push({
+                    id: key,
+                    config: this.state.storyIntroForm[key],
+                });
+            }
+        }
+
+        if(this.state.stage.isChoice){
+            leadText = 'Create a scenario and give us choices';
+            formName = 'storyChoiceForm';
+            for(let key in this.state.storyChoiceForm){
+                formElementsArray.push({
+                    id: key,
+                    config: this.state.storyChoiceForm[key],
+                });
+            }
+        }
+
+        let form = (<form onSubmit={(event) => this.storySubmitHandler(event,formName)} >
             {formElementsArray.map( formElement => {
                 return <Input
                     key={formElement.id}
@@ -247,15 +288,31 @@ class WriteStory extends Component{
                     invalid={!formElement.config.valid}
                     shouldValidate={formElement.config.validation}
                     touched={formElement.config.touched}
-                    changed={(event) => this.inputChangedHandler(event, formElement.id )}
+                    changed={(event) => this.inputChangedHandler(event, formElement.id, formName )}
                     />
                 })
             }
+
+            <Button
+                btnType="AddChoice"
+                clicked={(event) => this.addInputHandler(event, formName)}
+            >
+                Add Choice
+            </Button>
+
             <Button
                 btnType="Save"
                 disabled={!this.state.formIsValid}
+
             >
                 Save and Continue
+            </Button>
+
+            <Button
+                btnType="Publish"
+                disabled={!this.state.formIsValid}
+            >
+                Publish
             </Button>
         </form>);
         if(this.props.loading){
@@ -263,7 +320,7 @@ class WriteStory extends Component{
         }
         return(
             <div className={classes.WriteStory}>
-                <h2>Your story starts here</h2>
+                <h2>{leadText}</h2>
                 {form}
             </div>
         );

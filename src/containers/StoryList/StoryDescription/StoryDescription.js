@@ -11,7 +11,7 @@ const Story = (props) => {
     const link = '/stories/'+props.id;
 
     return (
-        <div className={classes.Story}>
+        <div className={classes.Inner}>
             <Link to={link} className={classes.Title}>{props.title}</Link>
             <p className={classes.Description}>{props.description} </p>
 

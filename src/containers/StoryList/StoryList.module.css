@@ -1,13 +1,15 @@
 .StoryList{
     padding: 0;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     flex-wrap: wrap;
 }
 
 .StoryListItem{
     list-style: none;
     width: 48%;
+    display: flex;
+    margin-bottom: 20px;
 }
 
 @media(max-width: 500px){
