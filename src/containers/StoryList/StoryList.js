@@ -11,7 +11,7 @@ class StoryList extends Component{
     };
 
     componentDidMount(){
-        axios.get('/stories.json?')
+        axios.get('/stories.json?orderBy="datePublished"&limitToFirst=10')
         .then( response => {
 
             const stories = [];
