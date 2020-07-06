@@ -163,7 +163,7 @@ class WriteStory extends Component{
                 ...formData,
             }
 
-            console.log(storyData);
+            // console.log(storyData);
             //for each choice, generate a new section that will be filled with data later
             axios.post('/sections.json', storyData)
             .then( response => {
@@ -204,14 +204,21 @@ class WriteStory extends Component{
         const count = choices.length + 1;
         const name = 'choice_' + count;
 
+        const oldInputs = {...this.state[formName]};
+        console.log(oldInputs);
+
         if(input){
             const newInput = {
-                [name]: {...this.state[formName][input]}
-            }
-            const inputs = {...this.state[formName], ...newInput};
-            this.setState(prevState => ({
-                [formName]: inputs
-            }));
+                [name]: JSON.parse(JSON.stringify(oldInputs[input]))
+            };
+            newInput[name].elementConfig.label = '';
+            const inputs = { ...oldInputs, ...newInput};
+            console.log(inputs);
+            this.setState(
+                {
+                    [formName]: inputs
+                }
+            );
 
         }
     }
@@ -239,8 +246,6 @@ class WriteStory extends Component{
     }
 
     render(){
-
-        console.log(this.state.storyIntroForm);
         const formElementsArray = [];
         let formName = '';
         let leadText = '';
