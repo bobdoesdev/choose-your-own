@@ -32,10 +32,23 @@ const input = (props) => {
             inputElement = <input className={inputClasses.join(' ')} {...props.elementConfig} value={props.value} onChange={props.changed}/>;
     }
 
+    let label = null;
+    if(props.elementConfig.label !== ''){
+        label = (
+        <label className={classes.Label}>{props.elementConfig.label}</label>
+        );
+    }
+
+    let description = null;
+
+    if(props.elementConfig.label !== ''){
+        description = <p>{props.elementConfig.description}</p>;
+    }
+
     return (
         <div className={classes.Input}>
-            <label className={classes.Label}>{props.elementConfig.label}</label>
-            <p>{props.elementConfig.description}</p>
+            {label}
+            {description}
             {inputElement}
         </div>
     );
