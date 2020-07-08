@@ -62,7 +62,6 @@ class WriteStory extends Component{
                 valid: false,
                 touched: false
             },
-            addAnother: false
         },
 
         storyIntroForm: {
@@ -77,7 +76,7 @@ class WriteStory extends Component{
                 },
                 value: '',
                 validation: {
-                    required: false,
+                    required: true,
                 },
                 valid: true,
                 touched: false,
@@ -100,9 +99,12 @@ class WriteStory extends Component{
             },
 
         },
-
         formIsValid: false
     };
+
+    componentDidMount(){
+        console.log('component mounted');
+    }
 
     checkValidity = (value, rules) => {
         let isValid = true;
@@ -125,31 +127,44 @@ class WriteStory extends Component{
     storySubmitHandler = (event, formName) => {
         event.preventDefault();
 
+        const stage = Object.keys(this.state.stage).find(key => this.state.stage[key] === true);
         const formData = {};
+
+        if(stage === 'isIntro' || stage === 'isChoice'){
+            formData['choices'] = [];
+        }
+
         for(let formElId in this.state[formName]){
             if( formElId  === 'genreTags'){
                 formData[formElId] = this.state[formName][formElId].value.split(', ');
-            } else{
-                formData[formElId] = this.state[formName][formElId].value
+                continue;
             }
 
+            if( formElId.includes('choice') ){
+                if(this.state[formName][formElId].value !== ''){
+                    formData['choices'].push({
+                        choice: this.state[formName][formElId].value,
+                        sectionId: uuid()
+                    });
+                }
+                continue;
+            }
+
+            formData[formElId] = this.state[formName][formElId].value;
+
         }
-        const stage = Object.keys(this.state.stage).find(key => this.state.stage[key] === true);
 
-        //stage should determine which api endpoint it's being sent to
-        //change type of id to add to formdata depending on if intro, storydetails or choice
-        //if is storydetails, it's a new story, add story id
-        //if its intro, needs story id
-
+        //if is storydetails, it's a new story, create storyId to be returned and used in state later
         let storyData = {};
         if(stage === 'isStoryDetails'){
+            const id = uuid();
             storyData = {
                 ...formData,
-                storyId: uuid(),
                 author: 'Alexander Hamilton',
                 datePublished: Date.now()
             }
-            axios.post('/stories.json', storyData)
+            console.log(storyData);
+            axios.put('/stories/'+id+'.json', storyData)
             .then( response => {
                 console.log(response.data);
             })
@@ -159,18 +174,15 @@ class WriteStory extends Component{
         }
 
         if(stage === 'isIntro'){
-            storyData = {
-                ...formData,
-            }
+            // then add a section with matching id
 
-            // console.log(storyData);
-            //for each choice, generate a new section that will be filled with data later
-            axios.post('/sections.json', storyData)
+            // for each choice, generate a new section that will be filled with data later
+            const introId = uuid();
+            axios.put('/sections/'+introId+'.json', formData)
             .then( response => {
-                //response should be name of newly created choice entry, add to intial story details so we know where the story starts
-                console.log(response.data.name);
-                //using temp story id since we don't have any user auth setup yet
-                axios.patch('/stories/-MBWIauUxSsrxzRnWMqp.json', {introId: response.data.name})
+
+                //temp story id atm
+                axios.patch('/stories/d2f26b7b-a2ee-456f-843f-80b3d7e49fc1).json', {introId: introId})
                 .then( response => {
                     console.log(response.data);
                 })
@@ -178,14 +190,37 @@ class WriteStory extends Component{
                     console.log(error);
                 });
             })
+            .then(response => {
+                formData.choices.forEach( choice  => {
+                    console.log('sectionID: ', choice.sectionId);
+                    axios.put('/sections/'+choice.sectionId+'.json', {content: '', choices: []})
+                    .then( response => {
+                        console.log(response);
+                    })
+                    .catch( error => {
+                        console.log(error);
+                    })
+                });
+            })
             .catch(error => {
                 console.log(error);
             });
+
+            // axios.get('/stories.json?orderBy="storyId"&equalTo="sdfsdfkj345459dfg"')
+            // .then( response => {
+            //     console.log(response);
+            // })
+            // .catch( error => {
+            //     console.log(error);
+            // })
+
 
         }
 
         // if(stage === 'isChoice'){
         // }
+
+        //on form submission, add a link for each choice to go and add the content for that. when this is clicked, submit
 
     }
 
@@ -205,15 +240,14 @@ class WriteStory extends Component{
         const name = 'choice_' + count;
 
         const oldInputs = {...this.state[formName]};
-        console.log(oldInputs);
 
         if(input){
             const newInput = {
                 [name]: JSON.parse(JSON.stringify(oldInputs[input]))
             };
             newInput[name].elementConfig.label = '';
+            newInput[name].value = '';
             const inputs = { ...oldInputs, ...newInput};
-            console.log(inputs);
             this.setState(
                 {
                     [formName]: inputs
@@ -308,7 +342,6 @@ class WriteStory extends Component{
             <Button
                 btnType="Save"
                 disabled={!this.state.formIsValid}
-
             >
                 Save and Continue
             </Button>
