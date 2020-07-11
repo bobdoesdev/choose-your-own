@@ -11,8 +11,8 @@ class WriteStory extends Component{
 
     state = {
         stage: {
-            isStoryDetails: false,
-            isIntro: true,
+            isStoryDetails: true,
+            isIntro: false,
             isChoice: false,
         },
         storyDetailsForm: {

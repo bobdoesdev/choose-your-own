@@ -13,7 +13,7 @@ const Sidebar = (props) => {
         <>
             <Backdrop click={props.closeHandler} open={props.open}/>
             <div className={attachedClasses.join(' ')}>
-                <NavItems/>
+                <NavItems isAuthenticated={props.isAuth}/>
             </div>
         </>
     );

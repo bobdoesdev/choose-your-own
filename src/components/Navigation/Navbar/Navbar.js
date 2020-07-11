@@ -9,7 +9,7 @@ const Navbar = (props) => {
     return (
         <header className={classes.Header}>
             <Logo />
-            <NavItems />
+            <NavItems isAuthenticated={props.isAuth}/>
             <NavToggle toggle={props.toggle}/>
         </header>
     );
